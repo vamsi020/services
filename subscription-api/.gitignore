@@ -29,3 +29,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Derby DB ###
+mydb/
+.log
+/derby.log
