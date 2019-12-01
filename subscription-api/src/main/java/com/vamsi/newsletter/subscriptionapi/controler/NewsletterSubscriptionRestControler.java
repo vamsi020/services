@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,7 @@ public class NewsletterSubscriptionRestControler {
 	 * Subscribe to newsletter. POST call - Adds entry to DB
 	 * 
 	 * @param user
-	 * @return ResponcePojo
+	 * @return ResponcePojo - Success or error message
 	 */
 	@PostMapping(path = "/subscribe", consumes = "application/json")
 	public ResponsePojo subscribe(@Valid @RequestBody Subscriber user) {
@@ -55,17 +56,17 @@ public class NewsletterSubscriptionRestControler {
 	}
 
 	/**
-	 * Unsubscribe to newsletter GET call - Error message if user not present
+	 * Unsubscribe to newsletter. PUT call - Error message if user not present
 	 * 
 	 * @param email
-	 * @return ResponcePojo
+	 * @return ResponcePojo - Success or error message
 	 */
-	@RequestMapping(path = "/unsubscribe", params = "email")
-	public ResponsePojo unSubscribe(@RequestParam @Pattern(regexp = GenericUtil.EMAIL_REGEX) String email) {
+	@PutMapping(path = "/unsubscribe", consumes = "application/json")
+	public ResponsePojo unSubscribe(@Valid @RequestBody Subscriber user) {
 		try {
-			Subscriber user = subscriptionService.getUser(email);
-			user.setSubscribed(false);
-			subscriptionService.addUser(user);
+			Subscriber subscriber = subscriptionService.getUser(user.getEmail());
+			subscriber.setSubscribed(false);
+			subscriptionService.addUser(subscriber);
 			return new SuccessResponsePojo("Success");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,7 +95,7 @@ public class NewsletterSubscriptionRestControler {
 	 * false.
 	 * 
 	 * @param email
-	 * @return boolean
+	 * @return boolean - true/false 
 	 */
 	@RequestMapping(path = "/user/isSubscribed", params = "email")
 	public boolean isUserSubscribed(@RequestParam @Pattern(regexp = GenericUtil.EMAIL_REGEX) String email) {
