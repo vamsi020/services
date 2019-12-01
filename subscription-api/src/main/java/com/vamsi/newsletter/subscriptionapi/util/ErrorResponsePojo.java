@@ -1,11 +1,20 @@
 package com.vamsi.newsletter.subscriptionapi.util;
 
-public class ErrorResponcePojo extends ResponcePojo {
-	public ErrorResponcePojo() {
+/**
+ * 
+ * @author Vamsi Krihna
+ * 
+ *         Error response model
+ * 
+ *         Can add the default error response data to any request
+ *
+ */
+public class ErrorResponsePojo extends ResponsePojo {
+	public ErrorResponsePojo() {
 		super();
 	}
 
-	public ErrorResponcePojo(String errorMessage) {
+	public ErrorResponsePojo(String errorMessage) {
 		super();
 		this.errorMessage = errorMessage;
 	}

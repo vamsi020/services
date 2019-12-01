@@ -13,37 +13,53 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vamsi.newsletter.subscriptionapi.util.GenericUtil;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * 
+ * @author Vamsi Krihna
+ * 
+ * Subscriber Model with ORM
+ * Email is primary key and should be valid 
+ *
+ */
+@ApiModel(value = "Subsribers details")
 @Entity
 public class Subscriber {
 
 	protected Subscriber() {
 	}
 
-	public Subscriber(String email, String name, boolean isSubscribed, Date subscriptionTimestamp,
-			Date lastUpdatedTimestamp) {
+	public Subscriber(String email, String name) {
 		this.email = email;
 		this.name = name;
-		this.isSubscribed = isSubscribed;
-		this.subscriptionTimestamp = subscriptionTimestamp;
-		this.lastUpdatedTimestamp = lastUpdatedTimestamp;
 	}
 
 	@Id
-	@Email
+	@Email(regexp = GenericUtil.EMAIL_REGEX)
+	@ApiModelProperty(value = "User Email - Primary key")
 	private String email;
+
+	@ApiModelProperty(value = "User Name")
 	private String name;
+
 	@NotNull
-	private boolean isSubscribed;
+	@ApiModelProperty(value = "Is user subscribed", hidden = true)
+	private boolean subscribed;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "User first subsctiption Timestamp", hidden = true)
 	private Date subscriptionTimestamp;
-	
+
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@ApiModelProperty(value = "User last updated Timestamp", hidden = true)
 	private Date lastUpdatedTimestamp;
 
 	public String getEmail() {
@@ -61,29 +77,20 @@ public class Subscriber {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public boolean isSubscribed() {
-		return isSubscribed;
+		return subscribed;
 	}
 
-	public void setSubscribed(boolean isSubscribed) {
-		this.isSubscribed = isSubscribed;
+	public void setSubscribed(boolean subscribed) {
+		this.subscribed = subscribed;
 	}
 
 	public Date getSubscriptionTimestamp() {
 		return subscriptionTimestamp;
 	}
 
-	public void setSubscriptionTimestamp(Date subscriptionTimestamp) {
-		this.subscriptionTimestamp = subscriptionTimestamp;
-	}
-
 	public Date getLastUpdatedTimestamp() {
 		return lastUpdatedTimestamp;
 	}
-
-	public void setLastUpdatedTimestamp(Date lastUpdatedTimestamp) {
-		this.lastUpdatedTimestamp = lastUpdatedTimestamp;
-	}
-
 }
