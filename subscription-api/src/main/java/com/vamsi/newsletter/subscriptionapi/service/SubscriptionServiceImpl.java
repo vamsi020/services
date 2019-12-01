@@ -14,6 +14,13 @@ import com.vamsi.newsletter.subscriptionapi.usermodel.Subscriber;
 import com.vamsi.newsletter.subscriptionapi.usermodel.SubscriberRepository;
 import com.vamsi.newsletter.subscriptionapi.util.TimeframeConditions;
 
+/**
+ * 
+ * @author Vamsi Krihna
+ * 
+ *         Subscription service implementation
+ *
+ */
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
@@ -54,9 +61,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Map<String, Object> usersMap = new HashMap<String, Object>();
 		List<Subscriber> filteredUserList = null;
 		switch (condition) {
-		case CURRENT_DATE:
-			filteredUserList = subscriberRepository.findAllUsersByDate(requestDate);
-			break;
 		case AFTER_DATE:
 			filteredUserList = subscriberRepository.findAllUsersAfterDate(requestDate);
 			break;
@@ -76,9 +80,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Map<String, Object> usersMap = new HashMap<String, Object>();
 		List<Subscriber> filteredUserList = null;
 		switch (condition) {
-		case CURRENT_DATE:
-			filteredUserList = subscriberRepository.findAllUsersBySubscriptionAndDate(requestDate, subscribedUsers);
-			break;
 		case AFTER_DATE:
 			filteredUserList = subscriberRepository.findAllUsersBySubscriptionAndAfterDate(requestDate,
 					subscribedUsers);
