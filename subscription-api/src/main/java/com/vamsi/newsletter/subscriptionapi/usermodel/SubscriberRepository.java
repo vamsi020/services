@@ -21,8 +21,8 @@ public interface SubscriberRepository extends CrudRepository<Subscriber, String>
 	 * @param subscribed - true/false
 	 * @return List of subscribed or unsubscribed users
 	 */
-	@Query("SELECT s FROM Subscriber s WHERE s.isSubscribed = ?1")
-	List<Subscriber> findAllUsersBySubscription(Boolean subscribed);
+	@Query("SELECT s FROM Subscriber s WHERE s.subscribed = ?1")
+	List<Subscriber> findAllUsersBySubscription(Boolean subscriptionFilter);
 	
 	/**
 	 * Query to find users before given date
@@ -49,8 +49,8 @@ public interface SubscriberRepository extends CrudRepository<Subscriber, String>
 	 * @param subscribed - true/false
 	 * @return List of subscribed or unsubscribed users before given date
 	 */
-	@Query("SELECT s FROM Subscriber s WHERE s.lastUpdatedTimestamp < ?1 AND s.isSubscribed = ?2")
-	List<Subscriber> findAllUsersBySubscriptionAndBeforeDate(Date reqDate, Boolean subscribed);
+	@Query("SELECT s FROM Subscriber s WHERE s.lastUpdatedTimestamp < ?1 AND s.subscribed = ?2")
+	List<Subscriber> findAllUsersBySubscriptionAndBeforeDate(Date reqDate, Boolean subscriptionFilter);
 	
 	/**
 	 * Query to find subscribed or unsubscribed users after given date
@@ -59,7 +59,7 @@ public interface SubscriberRepository extends CrudRepository<Subscriber, String>
 	 * @param subscribed - true/false
 	 * @return list of subscribed or unsubscribed users after given date
 	 */
-	@Query("SELECT s FROM Subscriber s WHERE s.lastUpdatedTimestamp >= ?1 AND s.isSubscribed = ?2")
-	List<Subscriber> findAllUsersBySubscriptionAndAfterDate(Date reqDate, Boolean subscribed);
+	@Query("SELECT s FROM Subscriber s WHERE s.lastUpdatedTimestamp >= ?1 AND s.subscribed = ?2")
+	List<Subscriber> findAllUsersBySubscriptionAndAfterDate(Date reqDate, Boolean subscriptionFilter);
 
 }
