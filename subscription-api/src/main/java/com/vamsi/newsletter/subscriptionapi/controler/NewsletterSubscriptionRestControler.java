@@ -127,15 +127,15 @@ public class NewsletterSubscriptionRestControler {
 			response = Boolean.class, 
 			notes = "Send email as a query perameter to know if user is subscribed or not.")
 	@RequestMapping(path = "/user/isSubscribed", method = RequestMethod.GET, params = "email")
-	public boolean isUserSubscribed(
+	public ResponsePojo isUserSubscribed(
 			@ApiParam(value = "Email to verify user subscription", required = true) 
 			@RequestParam @Pattern(regexp = GenericUtil.EMAIL_REGEX) String email) {
 		try {
 			Subscriber user = subscriptionService.getUser(email);
-			return user.isSubscribed();
+			return new SuccessResponsePojo(user.isSubscribed());
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return new ErrorResponsePojo(e.getMessage());
 		}
 	}
 
